@@ -150,6 +150,7 @@ print(vycistena_slova)
 {'affronting': 1, 'imprudence': 1, 'do': 2, 'he': 8, 'everything': 1, 'sex': 2, 'lasted': 1, 'dinner': 1, 'wanted': 1, 'indeed': 1, ...
  '''
 
+vyskyt_slov = {}
 
 
 #----------------------------------------------------------------------------
