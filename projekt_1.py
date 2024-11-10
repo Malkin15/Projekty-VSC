@@ -1,4 +1,5 @@
     ### Hlavička ###
+    
 # Proměnné s údaji
 project_name = "projekt_1.py"
 project_description = "první projekt do Engeto Online Python Akademie"
@@ -97,3 +98,11 @@ else:
     print("Selection have to be number! terminating the program..")
 
     ### třetí část programu - grafy ###
+
+# Vytvoření seznamu délek slov bez interpunkce
+word_lengths = [len(word.strip(",.!?")) for word in words] # délka slov bez interpunkce
+
+# Počítání výskytu jednotlivých délek slov
+length_counts = {} # klíče jsou různé délky slov a hodnoty odpovídají jejich četnosti
+for length in word_lengths: # Pro každou délku length v tomto seznamu projdeme for cyklem, abychom mohli každý výskyt délky slova zaznamenat do slovníku length_counts
+    length_counts[length] = length_counts.get(length, 0) + 1 # každá délka slova (length) bude v slovníku length_counts uložena spolu s počtem výskytů
