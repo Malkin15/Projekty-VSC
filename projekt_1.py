@@ -1,5 +1,5 @@
     ### Hlavička ###
-    
+
 # Proměnné s údaji
 project_name = "projekt_1.py"
 project_description = "první projekt do Engeto Online Python Akademie"
@@ -77,7 +77,7 @@ if selection.isdigit():
         # Analýza textu uložená do proměnných
         word_count = len(words)
         titlecase_count = sum(1 for word in words if word.istitle())
-        uppercase_count = sum(1 for word in words if word.isupper())
+        uppercase_count = sum(1 for word in words if word.isupper() and word.isalpha() and len(word) > 1) # kontrola velkých písmen + neobsahuje čísla a spec. znaky + že slovo má víc než jeden znak
         lowercase_count = sum(1 for word in words if word.islower())
         numeric_count = sum(1 for word in words if word.isdigit())
         numeric_sum = sum(int(word) for word in words if word.isdigit())
@@ -100,9 +100,13 @@ else:
     ### třetí část programu - grafy ###
 
 # Vytvoření seznamu délek slov bez interpunkce
-word_lengths = [len(word.strip(",.!?")) for word in words] # délka slov bez interpunkce
+word_lengths = [len(word.strip(",.!?")) for word in words] # list s délkami slov bez interpunkce
 
 # Počítání výskytu jednotlivých délek slov
 length_counts = {} # klíče jsou různé délky slov a hodnoty odpovídají jejich četnosti
 for length in word_lengths: # Pro každou délku length v tomto seznamu projdeme for cyklem, abychom mohli každý výskyt délky slova zaznamenat do slovníku length_counts
     length_counts[length] = length_counts.get(length, 0) + 1 # každá délka slova (length) bude v slovníku length_counts uložena spolu s počtem výskytů
+
+ # Zobrazení grafu četnosti délek slov - hlavička
+print("LEN".ljust(3), "|", "OCCURENCES".center(15), "|", "NR.".rjust(3))
+print(line)
