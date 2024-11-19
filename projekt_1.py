@@ -77,8 +77,6 @@ else:
     print(f"Invalid choice. Please select a number between 1 and {len(TEXTS)}, terminating the program..")
     quit()
 
-from collections import Counter  # Import modulu Counter
-
 ### Analýza textu ###
 
 # Odstranění přebytečných znaků a vytvoření seznamu slov
@@ -108,9 +106,6 @@ for word in words:
         numeric_strings.append(numeric_value)
         numeric_sum += numeric_value
 
-# Počítání výskytu jednotlivých délek slov
-length_counts = Counter(word_lengths)  # Slovník délka -> počet výskytů
-
 ### Výstup analýzy ###
 print(f"There are {word_count} words in the selected text.")
 print(f"There are {titlecase_words} titlecase words.")
@@ -125,7 +120,8 @@ print("LEN".ljust(3), "|", "OCCURENCES".center(14), "|", "NR.".rjust(2), sep="")
 print(line)
 
 # Zobrazení sloupcového grafu četnosti délek slov
-for length, count in sorted(length_counts.items()):
+for length in sorted(set(word_lengths)):  # Iterace přes jedinečné délky slov
+    count = word_lengths.count(length)  # Počet výskytů délky
     print(
         str(length).rjust(3),              # Zarovnání délky slova nalevo
         "|", 
