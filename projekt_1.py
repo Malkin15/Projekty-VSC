@@ -61,13 +61,20 @@ else:
 ### Druhá část programu - výběr textu ###
 
 # Vstup uživatele pro výběr textu
-
-selection = int(input(f"Enter a number btw. 1 and {len(TEXTS)} to select: "))
+selection = input(f"Enter a number btw. 1 and {len(TEXTS)} to select: ")
 print(line)
+
+# Kontrola, zda je vstup číslo
+if not selection.isdigit():
+    print("Invalid input, terminating the program..")
+    quit()
+
+# Převod vstupu na celé číslo a kontrola rozsahu
+selection = int(selection)
 if 1 <= selection <= len(TEXTS):
-        selected_text = TEXTS[selection - 1]  # Indexování od 0
+    selected_text = TEXTS[selection - 1]  # Indexování od 0
 else:
-    print(f"Invalid choice. Please select a number between 1 and {len(TEXTS)}.")
+    print(f"Invalid choice. Please select a number between 1 and {len(TEXTS)}, terminating the program..")
     quit()
 
 from collections import Counter  # Import modulu Counter
