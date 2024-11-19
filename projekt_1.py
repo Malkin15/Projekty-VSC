@@ -45,7 +45,6 @@ user_data = {
     "lizz": "pass123"
 }
 # Vyžádání si přihlašovacího jména a hesla
-print(f"$ python {project_name}")
 username = input("Enter your username: ")
 password = input("Enter your password: ")
 print(line)
@@ -53,61 +52,66 @@ print(line)
 # Kontrola přihlašovacích údajů a uvítání
 if username in user_data and user_data[username] == password:
     print(f"Welcome to the app, {username}")
-    print("We have 3 texts to be analyzed.")
+    print(f"We have {len(TEXTS)} texts to be analyzed.")
     print(line)
 else:
     print("unregistered user, terminating the program..")
     quit()
 
-    ### druhá část programu - výběr z textu ###
+### Druhá část programu - výběr textu ###
 
 # Vstup uživatele pro výběr textu
-selection = input("Enter a number btw. 1 and 3 to select: ")
+
+selection = int(input(f"Enter a number btw. 1 and {len(TEXTS)} to select: "))
 print(line)
-
-# Kontrola, zda je vstup číslo a zda je v platném rozsahu
-if selection.isdigit():
-    selection = int(selection)
-    if 1 <= selection <= 3:
-        selected_text = TEXTS[selection - 1]
-
-       # Rozdělení textu na slova pro analýzu
-        words = selected_text.split()
-
-        # Analýza textu uložená do proměnných
-        word_count = len(words)
-        titlecase_count = sum(1 for word in words if word.istitle())
-        # kontrola velkých písmen + neobsahuje čísla a spec. znaky + že slovo má víc než jeden znak
-        uppercase_count = sum(1 for word in words if word.isupper() 
-        and word.isalpha() and len(word) > 1)
-        lowercase_count = sum(1 for word in words if word.islower())
-        numeric_count = sum(1 for word in words if word.isdigit())
-        numeric_sum = sum(int(word) for word in words if word.isdigit())
-
-        # Výstup analýzy
-        print("There are", word_count, "words in the selected text.")
-        print("There are", titlecase_count, "titlecase words.")
-        print("There are", uppercase_count, "uppercase words.")
-        print("There are", lowercase_count, "lowercase words.")
-        print("There are", numeric_count, "numeric strings.")
-        print("The sum of all the numbers", numeric_sum)
-        print(line)
-
-# Když se zadá špatný formát nebo rozsah
-    else:
-        print("Invalid input! terminating the program..")
+if 1 <= selection <= len(TEXTS):
+        selected_text = TEXTS[selection - 1]  # Indexování od 0
 else:
-    print("Selection have to be number! terminating the program..")
+    print(f"Invalid choice. Please select a number between 1 and {len(TEXTS)}.")
+    quit()
 
-    ### třetí část programu - grafy ###
+from collections import Counter  # Import modulu Counter
 
-from collections import Counter # import modulu Counter
+### Analýza textu ###
 
-# Vytvoření seznamu délek slov bez interpunkce
-word_lengths = [len(word.strip(",.!?")) for word in words] # list s délkami slov bez interpunkce
+# Odstranění přebytečných znaků a vytvoření seznamu slov
+words = [word.strip(",.!?") for word in selected_text.split()]
+
+# Předdefinované proměnné pro výsledky analýzy
+word_count = 0
+titlecase_words = 0
+uppercase_words = 0
+lowercase_words = 0
+numeric_strings = []
+numeric_sum = 0
+word_lengths = []  # Seznam délek slov pro graf
+
+# Jednotný průchod seznamu slov
+for word in words:
+    word_count += 1
+    word_lengths.append(len(word))  # Ukládání délky slova
+    if word.istitle():
+        titlecase_words += 1
+    elif word.isupper():
+        uppercase_words += 1
+    elif word.islower():
+        lowercase_words += 1
+    if word.isdigit():
+        numeric_value = int(word)
+        numeric_strings.append(numeric_value)
+        numeric_sum += numeric_value
 
 # Počítání výskytu jednotlivých délek slov
-length_counts = (Counter(word_lengths))  # Counter vytvoří slovník délka -> počet výskytů
+length_counts = Counter(word_lengths)  # Slovník délka -> počet výskytů
+
+### Výstup analýzy ###
+print(f"There are {word_count} words in the selected text.")
+print(f"There are {titlecase_words} titlecase words.")
+print(f"There are {uppercase_words} uppercase words.")
+print(f"There are {lowercase_words} lowercase words.")
+print(f"There are {len(numeric_strings)} numeric strings.")
+print(f"The sum of all the numbers {numeric_sum}")
+print(line)
 
 # Zobrazení grafu četnosti délek slov - hlavička
 print("LEN".ljust(3), "|", "OCCURENCES".center(14), "|", "NR.".rjust(2), sep="")
@@ -115,11 +119,10 @@ print(line)
 
 # Zobrazení sloupcového grafu četnosti délek slov
 for length, count in sorted(length_counts.items()):
-    # vytvoření řádku grafu za pomocí zarovnání
     print(
         str(length).rjust(3),              # Zarovnání délky slova nalevo
         "|", 
         ("*" * count).ljust(14),           # Vytvoření hvězdičkového grafu
         "|", 
-        str(count).ljust(2), sep=""                # Počet výskytů zarovnaný vpravo
+        str(count).ljust(2), sep=""        # Počet výskytů zarovnaný vpravo
     )
